@@ -23,6 +23,28 @@ pipeline {
                 }
             }
         }
+        stage('Check Test Docker Image And Remove If Exist') {
+            steps {
+                script {
+                    def containerExistsOutput = sh(script: "docker ps -a --filter name=practice-test-test --format '{{.Names}}'", returnStdout: true).trim()
+                    def imageExistsOutput = sh(script: 'docker images -q practice-test-test', returnStdout: true).trim()
+                    if (containerExistsOutput) {
+                        echo 'Container exists. Stopping and removing...'
+                        sh 'docker stop practice-test'
+                        sh 'docker rm practice-test'
+            } else {
+                        echo 'Container does not exist.'
+                    }
+                    if (imageExistsOutput) {
+                        echo 'Image exists. Removing...'
+                        sh """docker rmi -f \$(docker images 'golamrabbani3587/practice-test' -a -q)"""
+            } else {
+                        echo 'Image does not exist.'
+                    }
+                }
+            }
+        }
+
         stage('Run Test Docker Image') {
             steps {
                 script {
