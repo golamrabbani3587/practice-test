@@ -30,14 +30,14 @@ pipeline {
                     def imageExistsOutput = sh(script: 'docker images -q practice-test-test', returnStdout: true).trim()
                     if (containerExistsOutput) {
                         echo 'Container exists. Stopping and removing...'
-                        sh 'docker stop practice-test'
-                        sh 'docker rm practice-test'
+                        sh 'docker stop practice-test-test'
+                        sh 'docker rm practice-test-test'
             } else {
                         echo 'Container does not exist.'
                     }
                     if (imageExistsOutput) {
                         echo 'Image exists. Removing...'
-                        sh """docker rmi -f \$(docker images 'golamrabbani3587/practice-test' -a -q)"""
+                        sh """docker rmi -f \$(docker images 'practice-test' -a -q)"""
             } else {
                         echo 'Image does not exist.'
                     }
