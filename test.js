@@ -1,6 +1,6 @@
 var expect  = require('chai').expect;
 var request = require('request');
-require('dotenv')
+require('dotenv').config()
 
 
 it('Main page content', function(done) {
