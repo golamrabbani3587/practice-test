@@ -118,7 +118,7 @@ pipeline {
                     def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
                     def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
                     echo "==>Pushing $imageTag Container to Docker Hub"
-                    sh "echo 'Programming123#' | docker login -u golamrabbani3587"
+                    sh "echo "Programming123#" | docker login -u golamrabbani3587 --password-stdin"
                     sh "docker tag golamrabbani3587/practice-test:v1 $imageTag"
                     sh "docker push $imageTag"
                 }
