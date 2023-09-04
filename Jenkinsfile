@@ -133,7 +133,6 @@ pipeline {
                 }
             }
         }
-        
         stage('Provision Blue Servers') {
             steps {
                 // Use Terraform to check if blue servers exist and provision them if they don't
