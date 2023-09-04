@@ -112,6 +112,15 @@ pipeline {
                 echo '==>Successfully Running.'
             }
         }
+        stage('Update Blue Servers') {
+            when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
+            steps {
+                // Use Terraform to update all blue servers according to the new Docker image
+                sh 'terraform apply -auto-approve'
+            }
+        }
         stage('Push Docker Image') {
             steps {
                 script {
@@ -128,16 +137,6 @@ pipeline {
             steps {
                 // Use Terraform to check if blue servers exist and provision them if they don't
                 sh 'terraform init -backend-config=backend.tfvars'
-                sh 'terraform apply -auto-approve'
-            }
-        }
-
-        stage('Update Blue Servers') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                // Use Terraform to update all blue servers according to the new Docker image
                 sh 'terraform apply -auto-approve'
             }
         }
