@@ -10,14 +10,14 @@ terraform {
 # Set the variable value in *.tfvars file
 
 provider "digitalocean" {
-  token = "dop_v1_3e23a07ba5254986716e916d7491c88f1c9aeec9d043fec3c3bf6598f29a12c2"
+  token = "dop_v1_c3851337204f8f656717eda1c1859a848e42767035ca6cdf966d762cb92b450b"
 }
 resource "digitalocean_droplet" "blue_server" {
   name    = "blue-server"
-  region  = "nyc1" # Replace with your desired region
-  size    = "s-1vcpu-1gb" # Replace with your desired size
-  image   = "ubuntu-22-04-x64" # Replace with your desired image
-  ssh_keys = ["mykey"] # Replace with your SSH key name
+  region  = "nyc1"
+  size    = "s-1vcpu-1gb"
+  image   = "ubuntu-22-04-x64"
+  ssh_keys = ["mykey"]
 
   user_data = <<-EOF
               #!/bin/bash
