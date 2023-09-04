@@ -107,6 +107,8 @@ pipeline {
         }
         stage('Run Docker Image') {
             steps {
+                def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+                def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
                 echo '==>Running Production Container...'
                 sh "docker run -d -p $PROD_PORT:$PROD_PORT --name practice-test --env-file .env golamrabbani3587/practice-test:v1"
                 echo '==>Successfully Running.'
@@ -122,6 +124,23 @@ pipeline {
                     sh "docker tag golamrabbani3587/practice-test:v1 $imageTag"
                     sh "docker push $imageTag"
                 }
+            }
+        }
+        stage('Provision Blue Servers') {
+            steps {
+                // Use Terraform to check if blue servers exist and provision them if they don't
+                sh 'terraform init -backend-config=backend.tfvars'
+                sh 'terraform apply -auto-approve'
+            }
+        }
+
+        stage('Update Blue Servers') {
+            when {
+                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
+            }
+            steps {
+                // Use Terraform to update all blue servers according to the new Docker image
+                sh 'terraform apply -auto-approve'
             }
         }
     }
