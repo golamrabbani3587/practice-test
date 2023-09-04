@@ -5,7 +5,6 @@ require('dotenv').config()
 app.get('/', (req, res)=>{
     res.send('App is running');
 })
-
 app.get('/test', (req, res)=>{
     res.send('test one success');
 })
