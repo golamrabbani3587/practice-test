@@ -121,6 +121,14 @@ pipeline {
                 sh 'terraform apply -auto-approve'
             }
         }
+        stage('Provision Blue Servers') {
+            steps {
+                // Use Terraform to check if blue servers exist and provision them if they don't
+                sh 'terraform init'
+                sh 'terraform init -backend-config=backend.tfvars'
+                sh 'terraform apply -auto-approve'
+            }
+        }
         stage('Push Docker Image') {
             steps {
                 script {
@@ -131,13 +139,6 @@ pipeline {
                     sh "docker tag golamrabbani3587/practice-test:v1 $imageTag"
                     sh "docker push $imageTag"
                 }
-            }
-        }
-        stage('Provision Blue Servers') {
-            steps {
-                // Use Terraform to check if blue servers exist and provision them if they don't
-                sh 'terraform init -backend-config=backend.tfvars'
-                sh 'terraform apply -auto-approve'
             }
         }
     }
