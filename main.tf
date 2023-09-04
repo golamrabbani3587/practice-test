@@ -1,6 +1,7 @@
 # Define the DigitalOcean provider
 provider "digitalocean" {
   token = "dop_v1_9ba2628ece364a2cf0ce1c413850b1db1cc6b17659797a1e710954e13f450073"
+   version = "1.5.6"
 }
 resource "digitalocean_droplet" "blue_server" {
   name    = "blue-server"
