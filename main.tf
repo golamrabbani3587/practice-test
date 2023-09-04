@@ -1,16 +1,17 @@
 terraform {
   required_providers {
     digitalocean = {
-      source  = "digitalocean/digitalocean"
-      version = "1.5.6"
+      source = "digitalocean/digitalocean"
+      version = "~> 2.0"
     }
   }
 }
 
-provider "digitalocean" {
- token = "dop_v1_3e23a07ba5254986716e916d7491c88f1c9aeec9d043fec3c3bf6598f29a12c2"
-}
+# Set the variable value in *.tfvars file
 
+provider "digitalocean" {
+  token = "dop_v1_3e23a07ba5254986716e916d7491c88f1c9aeec9d043fec3c3bf6598f29a12c2"
+}
 resource "digitalocean_droplet" "blue_server" {
   name    = "blue-server"
   region  = "nyc1" # Replace with your desired region
