@@ -33,6 +33,3 @@ resource "digitalocean_droplet" "blue_server" {
               done
               EOF
 }
-output "droplet_ip" {
-  value = digitalocean_droplet.blue_server.ipv4_address
-}
