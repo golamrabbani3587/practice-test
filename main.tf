@@ -10,7 +10,7 @@ terraform {
 # Set the variable value in *.tfvars file
 
 provider "digitalocean" {
-  token = "dop_v1_c3851337204f8f656717eda1c1859a848e42767035ca6cdf966d762cb92b450b"
+  token = "dop_v1_e4d9ee690084f1d933372f2f294420fff95f7eb9a0391e4ff3cfbbd3ababeba3"
 }
 resource "digitalocean_droplet" "blue_server" {
   name    = "blue-server"
