@@ -105,27 +105,30 @@ pipeline {
                 echo '==>Successfully Build.'
             }
         }
-        stage('Run Docker Image') {
-            steps {
-                def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
-                def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
-                echo '==>Running Production Container...'
-                sh "docker run -d -p $PROD_PORT:$PROD_PORT --name practice-test --env-file .env golamrabbani3587/practice-test:v1"
-                echo '==>Successfully Running.'
-            }
+stage('Run Docker Image') {
+    steps {
+        script {
+            def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+            def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
+            echo '==>Running Production Container...'
+            sh "docker run -d -p $PROD_PORT:$PROD_PORT --name practice-test --env-file .env golamrabbani3587/practice-test:v1"
+            echo '==>Successfully Running.'
         }
-        stage('Push Docker Image') {
-            steps {
-                script {
-                    def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
-                    def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
-                    echo "==>Pushing $imageTag Container to Docker Hub"
-                    sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
-                    sh "docker tag golamrabbani3587/practice-test:v1 $imageTag"
-                    sh "docker push $imageTag"
-                }
-            }
+    }
+}
+
+stage('Push Docker Image') {
+    steps {
+        script {
+            def commitMessage = sh(script: "git log --format=%s -n 1", returnStdout: true).trim()
+            def imageTag = "golamrabbani3587/practice-test:${commitMessage}"
+            echo "==>Pushing $imageTag Container to Docker Hub"
+            sh "echo 'Programming123#' | docker login -u golamrabbani3587 --password-stdin"
+            sh "docker tag golamrabbani3587/practice-test:v1 $imageTag"
+            sh "docker push $imageTag"
         }
+    }
+}
         stage('Provision Blue Servers') {
             steps {
                 // Use Terraform to check if blue servers exist and provision them if they don't
